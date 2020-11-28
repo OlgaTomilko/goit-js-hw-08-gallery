@@ -4,6 +4,7 @@ const refs = {
   galleryList: document.querySelector('.js-gallery'),
   modal: document.querySelector('.lightbox'),
   btnCloseModal: document.querySelector('button[data-action="close-lightbox"]'),
+  modalImg: document.querySelector('.lightbox__image'),
 };
 
 // Создание и рендер разметки по массиву данных и предоставленному шаблонy
@@ -54,14 +55,20 @@ function onGalleryClick(event) {
   const imgRef = event.target;
   const largeImgURL = imgRef.dataset.source;
 
-  console.log(largeImgURL);
   openModal();
+  setModalImgSrc(largeImgURL);
 }
 
 //Открытие модального окна по клику на элементе галереи
 
 function openModal() {
   refs.modal.classList.add('is-open');
+}
+
+//Подмена значения атрибута src элемента img.lightbox__image
+
+function setModalImgSrc(url) {
+  refs.modalImg.src = url;
 }
 
 //Закрытие модального окна по клику на кнопку button[data-action="close-lightbox"]

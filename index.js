@@ -14,7 +14,7 @@ function createGalleryItem(item) {
   newLi.classList.add('gallery__item');
 
   newA.classList.add('gallery__link');
-  newA.setAttribute('src', item.original);
+  newA.setAttribute('href', item.original);
 
   newImg.classList.add('gallery__image');
   newImg.setAttribute('src', item.preview);
@@ -37,3 +37,20 @@ function createGallery(array) {
 }
 
 createGallery(galleryItem);
+
+//Реализация делегирования на галерее ul.js-gallery и получение url большого изображения
+
+refs.galleryList.addEventListener('click', onGalleryClick);
+
+function onGalleryClick(event) {
+  event.preventDefault();
+
+  if (event.target.nodeName !== 'IMG') {
+    return;
+  }
+
+  const imgRef = event.target;
+  const largeImgURL = imgRef.dataset.source;
+
+  console.log(largeImgURL);
+}

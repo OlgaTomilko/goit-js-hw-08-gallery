@@ -77,4 +77,12 @@ refs.btnCloseModal.addEventListener('click', closeModal);
 
 function closeModal() {
   refs.modal.classList.remove('is-open');
+  cleanModalImgSrc();
+}
+
+//Очистка значения атрибута src элемента img.lightbox__image. Это необходимо для того,
+//чтобы при следующем открытии модального окна, пока грузится изображение, мы не видели предыдущее
+
+function cleanModalImgSrc() {
+  refs.modalImg.src = '';
 }

@@ -64,6 +64,7 @@ function onGalleryClick(event) {
 //Открытие модального окна по клику на элементе галереи
 
 function openModal() {
+  window.addEventListener('keydown', onPressESC);
   refs.modal.classList.add('is-open');
 }
 
@@ -78,6 +79,7 @@ function setModalImgSrc(url) {
 refs.btnCloseModal.addEventListener('click', closeModal);
 
 function closeModal() {
+  window.removeEventListener('keydown', onPressESC);
   refs.modal.classList.remove('is-open');
   cleanModalImgSrc();
 }
@@ -92,3 +94,11 @@ function cleanModalImgSrc() {
 // Закрытие модального окна по клику на div.lightbox__overlay
 
 refs.modalOverlay.addEventListener('click', closeModal);
+
+// Закрытие модального окна по нажатию клавиши ESC
+
+function onPressESC(event) {
+  if (event.code === 'Escape') {
+    closeModal();
+  }
+}

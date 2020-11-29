@@ -9,9 +9,11 @@ const refs = {
   //modalContent: document.querySelector('.lightbox__content'),
 };
 
+let index = 0;
+
 // Создание и рендер разметки по массиву данных и предоставленному шаблонy
 
-function createGalleryItem(item) {
+function createGalleryItem(item, i) {
   let newLi = document.createElement('li');
   let newA = document.createElement('a');
   let newImg = document.createElement('img');
@@ -25,6 +27,7 @@ function createGalleryItem(item) {
   newImg.setAttribute('src', item.preview);
   newImg.dataset.source = `${item.original}`;
   newImg.setAttribute('alt', item.description);
+  newImg.dataset.index = `${i}`;
 
   newA.appendChild(newImg);
   newLi.appendChild(newA);
@@ -33,10 +36,12 @@ function createGalleryItem(item) {
 }
 
 function createGallery(array) {
+  let i = -1;
   array.forEach(element => {
+    i += 1;
     refs.galleryList.insertAdjacentElement(
       'beforeend',
-      createGalleryItem(element),
+      createGalleryItem(element, i),
     );
   });
 }
@@ -57,6 +62,8 @@ function onGalleryClick(event) {
   const imgRef = event.target;
   const largeImgURL = imgRef.dataset.source;
 
+  index = Number(event.target.dataset.index);
+
   openModal();
   setModalImgSrc(largeImgURL);
 }
@@ -65,6 +72,8 @@ function onGalleryClick(event) {
 
 function openModal() {
   window.addEventListener('keydown', onPressESC);
+  window.addEventListener('keydown', onPressArrowLeft);
+  window.addEventListener('keydown', onPressArrowRight);
   refs.modal.classList.add('is-open');
 }
 
@@ -78,8 +87,10 @@ function setModalImgSrc(url) {
 
 refs.btnCloseModal.addEventListener('click', closeModal);
 
-function closeModal() {
+function closeModal(event) {
   window.removeEventListener('keydown', onPressESC);
+  window.removeEventListener('keydown', onPressArrowLeft);
+  window.removeEventListener('keydown', onPressArrowRight);
   refs.modal.classList.remove('is-open');
   cleanModalImgSrc();
 }
@@ -100,5 +111,18 @@ refs.modalOverlay.addEventListener('click', closeModal);
 function onPressESC(event) {
   if (event.code === 'Escape') {
     closeModal();
+  }
+}
+
+// Пролистывание изображений галереи в открытом модальном окне клавишами "влево" и "вправо"
+
+function onPressArrowLeft(event) {
+  if (event.code === 'ArrowLeft' && index > 0) {
+    refs.modalImg.src = galleryItem[(index -= 1)].original;
+  }
+}
+function onPressArrowRight(event) {
+  if (event.code === 'ArrowRight' && index < galleryItem.length - 1) {
+    refs.modalImg.src = galleryItem[(index += 1)].original;
   }
 }

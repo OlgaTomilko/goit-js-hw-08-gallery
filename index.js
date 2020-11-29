@@ -5,6 +5,8 @@ const refs = {
   modal: document.querySelector('.lightbox'),
   btnCloseModal: document.querySelector('button[data-action="close-lightbox"]'),
   modalImg: document.querySelector('.lightbox__image'),
+  modalOverlay: document.querySelector('.lightbox__overlay'),
+  //modalContent: document.querySelector('.lightbox__content'),
 };
 
 // Создание и рендер разметки по массиву данных и предоставленному шаблонy
@@ -86,3 +88,7 @@ function closeModal() {
 function cleanModalImgSrc() {
   refs.modalImg.src = '';
 }
+
+// Закрытие модального окна по клику на div.lightbox__overlay
+
+refs.modalOverlay.addEventListener('click', closeModal);
